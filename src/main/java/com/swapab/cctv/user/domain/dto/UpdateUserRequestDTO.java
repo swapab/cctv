@@ -1,4 +1,4 @@
-package com.swapab.cctv.user.domain;
+package com.swapab.cctv.user.domain.dto;
 
 public class UpdateUserRequestDTO {
     private Double amount;

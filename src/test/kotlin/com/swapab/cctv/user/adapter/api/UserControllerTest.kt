@@ -1,9 +1,10 @@
 package com.swapab.cctv.user.adapter.api
 
 import com.swapab.cctv.toJsonString
-import com.swapab.cctv.user.domain.UpdateUserRequestDTO
-import com.swapab.cctv.user.domain.User
+import com.swapab.cctv.user.domain.dto.UpdateUserRequestDTO
+import com.swapab.cctv.user.domain.model.User
 import com.swapab.cctv.user.domain.UserService
+import com.swapab.cctv.user.exceptions.UserNotFoundException
 import org.junit.jupiter.api.Test
 import org.mockito.BDDMockito.given
 import org.springframework.beans.factory.annotation.Autowired
@@ -22,7 +23,7 @@ class UserControllerTest {
     companion object {
         private const val userBaseUrl = "/users"
         private val user = User()
-
+        private val userId = user.userId
     }
 
     @Autowired
@@ -40,7 +41,7 @@ class UserControllerTest {
         result.andExpect(status().isCreated)
                 .andExpect(
                         content().json(
-                                "{userId: ${user.userId}}, balance: 0.0"
+                                "{userId: $userId, balance: 0.0}"
                         )
                 )
     }
@@ -50,7 +51,26 @@ class UserControllerTest {
         val amount = 10.0
         val updateUserRequestDTO = UpdateUserRequestDTO(amount)
         user.balance = amount
-        given(userService.update(amount)).willReturn(user)
+        given(userService.update(user.userId, amount)).willReturn(user)
+
+        val result = mockMvc.perform(
+                post("$userBaseUrl/$userId")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(updateUserRequestDTO.toJsonString())
+        )
+
+        result.andExpect(status().isOk)
+                .andExpect(
+                        content().json(
+                                "{userId: $userId, balance: $amount}"
+                        )
+                )
+    }
+
+    @Test
+    fun `POST - updateUser - should return 404 user-not-found if user does not exists`() {
+        val updateUserRequestDTO = UpdateUserRequestDTO(0.0)
+        given(userService.update(user.userId, 0.0)).willThrow(UserNotFoundException())
 
         val result = mockMvc.perform(
                 post("$userBaseUrl/${user.userId}")
@@ -59,11 +79,6 @@ class UserControllerTest {
                         .content(updateUserRequestDTO.toJsonString())
         )
 
-        result.andExpect(status().isOk)
-                .andExpect(
-                        content().json(
-                                "{userId: ${user.userId}}, balance: $amount"
-                        )
-                )
+        result.andExpect(status().isNotFound)
     }
 }

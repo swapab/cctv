@@ -1,10 +1,10 @@
-package com.swapab.cctv.user.domain;
+package com.swapab.cctv.user.domain.model;
 
 import java.util.UUID;
 
-public class UserResponseDTO {
-    private String userId;
-    private Double balance;
+public class User {
+    private String userId = UUID.randomUUID().toString();
+    private Double balance = 0.0;
 
     public String getUserId() {
         return userId;
@@ -19,12 +19,6 @@ public class UserResponseDTO {
     }
 
     public void setBalance(Double balance) {
-        this.balance = balance;
-    }
-
-
-    public UserResponseDTO(UUID userId, Double balance) {
-        this.userId = userId.toString();
         this.balance = balance;
     }
 }
