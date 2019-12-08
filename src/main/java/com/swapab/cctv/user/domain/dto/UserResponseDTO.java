@@ -1,7 +1,5 @@
 package com.swapab.cctv.user.domain.dto;
 
-import java.util.UUID;
-
 public class UserResponseDTO {
     private String userId;
     private Double balance;
