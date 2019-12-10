@@ -5,13 +5,12 @@ import com.swapab.cctv.user.domain.User;
 import com.swapab.cctv.user.usecase.addmoney.GetUserByUserId;
 import com.swapab.cctv.user.usecase.addmoney.UpdateUserWithBalance;
 import com.swapab.cctv.user.usecase.register.CreateUserWithZeroBalance;
-import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-@Repository
 public class UserDataStoreProvider implements
         CreateUserWithZeroBalance,
         GetUserByUserId,
@@ -19,19 +18,23 @@ public class UserDataStoreProvider implements
         DoesUserExists {
     private static final Double DEFAULT_BALANCE = 0.0;
 
-    private HashMap<String, User> users = new HashMap<>();
+    private Map<String, User> userStore;
+
+    public UserDataStoreProvider(HashMap<String, User> userStore) {
+        this.userStore = userStore;
+    }
 
     @Override
     public User createUserWithZeroBalance() {
         User newUser = new User(UUID.randomUUID().toString(), DEFAULT_BALANCE);
-        users.put(newUser.getUserId(), newUser);
+        userStore.put(newUser.getUserId(), newUser);
         return newUser;
     }
 
     @Override
     public Optional<User> findByUserId(String userId) {
-        if (users.containsKey(userId)) {
-            return Optional.of(users.get(userId));
+        if (userStore.containsKey(userId)) {
+            return Optional.of(userStore.get(userId));
         }
         return Optional.empty();
     }
@@ -42,11 +45,11 @@ public class UserDataStoreProvider implements
                 user.getUserId(),
                 user.getBalance() + amount
         );
-        return users.put(updatedUser.getUserId(), updatedUser);
+        return userStore.put(updatedUser.getUserId(), updatedUser);
     }
 
     @Override
     public boolean doesUserExists(String userId) {
-        return true;
+        return userStore.containsKey(userId);
     }
 }

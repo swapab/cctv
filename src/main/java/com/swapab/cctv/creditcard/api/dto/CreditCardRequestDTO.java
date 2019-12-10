@@ -1,4 +1,4 @@
-package com.swapab.cctv.creditcard.adapter.api.dto;
+package com.swapab.cctv.creditcard.api.dto;
 
 public class CreditCardRequestDTO {
     private String creditCardNumber;

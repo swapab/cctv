@@ -1,4 +1,4 @@
-package com.swapab.cctv.creditcard.adapter.api.exceptions;
+package com.swapab.cctv.creditcard.api.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

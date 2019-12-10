@@ -1,8 +1,8 @@
-package com.swapab.cctv.user.adapter.api;
+package com.swapab.cctv.user.api;
 
-import com.swapab.cctv.user.adapter.api.dto.UpdateUserRequestDTO;
-import com.swapab.cctv.user.adapter.api.dto.UserResponseDTO;
-import com.swapab.cctv.user.adapter.api.exception.NotFoundException;
+import com.swapab.cctv.user.api.dto.UpdateUserRequestDTO;
+import com.swapab.cctv.user.api.dto.UserResponseDTO;
+import com.swapab.cctv.user.api.exception.NotFoundException;
 import com.swapab.cctv.user.domain.User;
 import com.swapab.cctv.user.usecase.addmoney.AddMoneyToUserUseCase;
 import com.swapab.cctv.user.usecase.addmoney.UserNotFoundException;

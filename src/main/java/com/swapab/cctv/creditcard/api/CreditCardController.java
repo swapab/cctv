@@ -1,8 +1,8 @@
-package com.swapab.cctv.creditcard.adapter.api;
+package com.swapab.cctv.creditcard.api;
 
-import com.swapab.cctv.creditcard.adapter.api.dto.CreditCardRequestDTO;
-import com.swapab.cctv.creditcard.adapter.api.exceptions.BadRequestError;
-import com.swapab.cctv.creditcard.adapter.api.exceptions.NotFoundError;
+import com.swapab.cctv.creditcard.api.dto.CreditCardRequestDTO;
+import com.swapab.cctv.creditcard.api.exceptions.BadRequestError;
+import com.swapab.cctv.creditcard.api.exceptions.NotFoundError;
 import com.swapab.cctv.creditcard.domain.CreditCard;
 import com.swapab.cctv.creditcard.usecase.CreditCardAlreadyExistsException;
 import com.swapab.cctv.creditcard.usecase.InvalidCreditCardException;
