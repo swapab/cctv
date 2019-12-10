@@ -1,4 +1,4 @@
-package com.swapab.cctv.user.exceptions;
+package com.swapab.cctv.user.usecase.addmoney;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

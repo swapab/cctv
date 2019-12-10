@@ -1,27 +1,11 @@
 package com.swapab.cctv.user.domain.model;
 
-import java.util.HashSet;
-import java.util.UUID;
-
 public class User {
-    private String userId = UUID.randomUUID().toString();
-    private Double balance = 0.0;
-    private HashSet<String> creditCards;
-
-    public HashSet<String> getCreditCards() {
-        return creditCards;
-    }
-
-    public void setCreditCards(HashSet<String> creditCards) {
-        this.creditCards = creditCards;
-    }
+    private String userId;
+    private Double balance;
 
     public String getUserId() {
         return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     public Double getBalance() {
@@ -34,9 +18,8 @@ public class User {
 
     public User() {}
 
-    public User(String userId, Double balance, HashSet<String> creditCards) {
+    public User(String userId, Double balance) {
         this.userId = userId;
         this.balance = balance;
-        this.creditCards = creditCards;
     }
 }

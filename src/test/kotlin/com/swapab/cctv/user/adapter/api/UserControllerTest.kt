@@ -3,8 +3,9 @@ package com.swapab.cctv.user.adapter.api
 import com.swapab.cctv.toJsonString
 import com.swapab.cctv.user.domain.dto.UpdateUserRequestDTO
 import com.swapab.cctv.user.domain.model.User
-import com.swapab.cctv.user.domain.UserService
-import com.swapab.cctv.user.exceptions.UserNotFoundException
+import com.swapab.cctv.user.usecase.addmoney.UserNotFoundException
+import com.swapab.cctv.user.usecase.addmoney.AddMoneyToUserUseCase
+import com.swapab.cctv.user.usecase.register.RegisterNewUserUseCase
 import org.junit.jupiter.api.Test
 import org.mockito.BDDMockito.given
 import org.springframework.beans.factory.annotation.Autowired
@@ -14,6 +15,7 @@ import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
@@ -22,7 +24,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 class UserControllerTest {
     companion object {
         private const val userBaseUrl = "/users"
-        private val user = User()
+        private const val USER_ID = "user-id"
+        private val user = User(USER_ID, 0.0)
         private val userId = user.userId
     }
 
@@ -30,55 +33,47 @@ class UserControllerTest {
     private lateinit var mockMvc: MockMvc
 
     @MockBean
-    private lateinit var userService: UserService
+    private lateinit var registerNewUserUseCase: RegisterNewUserUseCase
+
+    @MockBean
+    private lateinit var addMoneyToUserUseCase: AddMoneyToUserUseCase
 
     @Test
     fun `POST - createUser - should create a user with zero balance`() {
-        given(userService.create()).willReturn(user)
+        given(registerNewUserUseCase.register()).willReturn(User(USER_ID, 0.0))
 
-        val result = mockMvc.perform(post(userBaseUrl))
-
-        result.andExpect(status().isCreated)
-                .andExpect(
-                        content().json(
-                                "{userId: $userId, balance: 0.0}"
-                        )
-                )
+        mockMvc.perform(post(userBaseUrl))
+                .andExpect(status().isCreated)
+                .andExpect(content().json(
+                        "{userId: $userId, balance: 0.0}"
+                ))
     }
 
     @Test
-    fun `POST - updateUser - should update user balance`() {
+    fun `PUT - updateUser - should update user balance`() {
+        val user = User(USER_ID, 0.0)
         val amount = 10.0
         val updateUserRequestDTO = UpdateUserRequestDTO(amount)
         user.balance = amount
-        given(userService.update(user.userId, amount)).willReturn(user)
+        given(addMoneyToUserUseCase.addMoney(user.userId, amount)).will {}
 
-        val result = mockMvc.perform(
-                post("$userBaseUrl/$userId")
+        mockMvc.perform(
+                put("$userBaseUrl/$userId")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(updateUserRequestDTO.toJsonString())
-        )
-
-        result.andExpect(status().isOk)
-                .andExpect(
-                        content().json(
-                                "{userId: $userId, balance: $amount}"
-                        )
-                )
+                        .content(updateUserRequestDTO.toJsonString()))
+                .andExpect(status().isOk)
     }
 
     @Test
-    fun `POST - updateUser - should return 404 user-not-found if user does not exists`() {
+    fun `PUT - updateUser - should return 404 user-not-found if user does not exists`() {
         val updateUserRequestDTO = UpdateUserRequestDTO(0.0)
-        given(userService.update(user.userId, 0.0)).willThrow(UserNotFoundException())
+        given(addMoneyToUserUseCase.addMoney(user.userId, 0.0)).willThrow(UserNotFoundException())
 
-        val result = mockMvc.perform(
-                post("$userBaseUrl/${user.userId}")
+        mockMvc.perform(
+                put("$userBaseUrl/${user.userId}")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .content(updateUserRequestDTO.toJsonString())
-        )
-
-        result.andExpect(status().isNotFound)
+                        .content(updateUserRequestDTO.toJsonString()))
+                .andExpect(status().isNotFound)
     }
 }

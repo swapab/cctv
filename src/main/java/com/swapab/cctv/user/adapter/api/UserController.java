@@ -1,9 +1,10 @@
 package com.swapab.cctv.user.adapter.api;
 
-import com.swapab.cctv.user.domain.UserService;
 import com.swapab.cctv.user.domain.dto.UpdateUserRequestDTO;
 import com.swapab.cctv.user.domain.dto.UserResponseDTO;
 import com.swapab.cctv.user.domain.model.User;
+import com.swapab.cctv.user.usecase.addmoney.AddMoneyToUserUseCase;
+import com.swapab.cctv.user.usecase.register.RegisterNewUserUseCase;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,25 +13,31 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/users")
 public class UserController {
 
-    private final UserService userService;
+    private final RegisterNewUserUseCase registerNewUserUseCase;
+    private final AddMoneyToUserUseCase addMoneyToUserUseCase;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public UserController(RegisterNewUserUseCase registerNewUserUseCase, AddMoneyToUserUseCase addMoneyToUserUseCase) {
+        this.registerNewUserUseCase = registerNewUserUseCase;
+        this.addMoneyToUserUseCase = addMoneyToUserUseCase;
     }
 
     @PostMapping
     ResponseEntity<UserResponseDTO> createUser() {
-        User createdUser = userService.create();
-        return new ResponseEntity<>(new UserResponseDTO(createdUser.getUserId(), createdUser.getBalance()), HttpStatus.CREATED);
+        User createdUser = registerNewUserUseCase.register();
+        return new ResponseEntity<>(toDto(createdUser), HttpStatus.CREATED);
     }
 
-    @PostMapping(value = "/{userId}")
-    User updateUser(
+    @PutMapping(value = "/{userId}")
+    void updateUser(
             @RequestBody UpdateUserRequestDTO updateUserRequestDTO,
             @PathVariable String userId) {
-        return userService.update(
+        addMoneyToUserUseCase.addMoney(
                 userId,
                 updateUserRequestDTO.getAmount()
         );
+    }
+
+    private UserResponseDTO toDto(User user) {
+        return new UserResponseDTO(user.getUserId(), user.getBalance());
     }
 }
