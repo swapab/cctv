@@ -2,7 +2,7 @@ package com.swapab.cctv.user.api.dto;
 
 public class UserResponseDTO {
     private String userId;
-    private Double balance;
+    private double balance;
 
     public String getUserId() {
         return userId;
@@ -12,15 +12,15 @@ public class UserResponseDTO {
         this.userId = userId;
     }
 
-    public Double getBalance() {
+    public double getBalance() {
         return balance;
     }
 
-    public void setBalance(Double balance) {
+    public void setBalance(double balance) {
         this.balance = balance;
     }
 
-    public UserResponseDTO(String  userId, Double balance) {
+    public UserResponseDTO(String  userId, double balance) {
         this.userId = userId;
         this.balance = balance;
     }

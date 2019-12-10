@@ -12,7 +12,7 @@ public class AddMoneyToUserUseCase {
         this.updateUserWithBalance = updateUserWithBalance;
     }
 
-    public void addMoney(String userId, Double amount) {
+    public void addMoney(String userId, double amount) {
         updateUserWithBalance.updateUserBalance(
                 getUserByUserId
                         .findByUserId(userId)

@@ -2,23 +2,23 @@ package com.swapab.cctv.user.domain;
 
 public class User {
     private String userId;
-    private Double balance;
+    private double balance;
 
     public String getUserId() {
         return userId;
     }
 
-    public Double getBalance() {
+    public double getBalance() {
         return balance;
     }
 
-    public void setBalance(Double balance) {
+    public void setBalance(double balance) {
         this.balance = balance;
     }
 
     public User() {}
 
-    public User(String userId, Double balance) {
+    public User(String userId, double balance) {
         this.userId = userId;
         this.balance = balance;
     }

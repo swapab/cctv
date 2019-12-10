@@ -1,19 +1,19 @@
 package com.swapab.cctv.user.api.dto;
 
 public class UpdateUserRequestDTO {
-    private Double amount;
+    private double amount;
 
-    public Double getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(Double amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
     public UpdateUserRequestDTO() {}
 
-    public UpdateUserRequestDTO(Double amount) {
+    public UpdateUserRequestDTO(double amount) {
         this.amount = amount;
     }
 }

@@ -16,7 +16,7 @@ public class UserDataStoreProvider implements
         GetUserByUserId,
         UpdateUserWithBalance,
         DoesUserExists {
-    private static final Double DEFAULT_BALANCE = 0.0;
+    private static final double DEFAULT_BALANCE = 0.0;
 
     private Map<String, User> userStore;
 
@@ -40,7 +40,7 @@ public class UserDataStoreProvider implements
     }
 
     @Override
-    public User updateUserBalance(User user, Double amount) {
+    public User updateUserBalance(User user, double amount) {
         User updatedUser = new User(
                 user.getUserId(),
                 user.getBalance() + amount
