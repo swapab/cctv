@@ -1,6 +1,6 @@
 package com.swapab.cctv.user.usecase.register;
 
-import com.swapab.cctv.user.domain.model.User;
+import com.swapab.cctv.user.domain.User;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -1,6 +1,7 @@
 package com.swapab.cctv.user.datastore;
 
-import com.swapab.cctv.user.domain.model.User;
+import com.swapab.cctv.creditcard.usecase.DoesUserExists;
+import com.swapab.cctv.user.domain.User;
 import com.swapab.cctv.user.usecase.addmoney.GetUserByUserId;
 import com.swapab.cctv.user.usecase.addmoney.UpdateUserWithBalance;
 import com.swapab.cctv.user.usecase.register.CreateUserWithZeroBalance;
@@ -11,7 +12,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public class UserDataStoreProvider implements CreateUserWithZeroBalance, GetUserByUserId, UpdateUserWithBalance {
+public class UserDataStoreProvider implements
+        CreateUserWithZeroBalance,
+        GetUserByUserId,
+        UpdateUserWithBalance,
+        DoesUserExists {
     private static final Double DEFAULT_BALANCE = 0.0;
 
     private HashMap<String, User> users = new HashMap<>();
@@ -38,5 +43,10 @@ public class UserDataStoreProvider implements CreateUserWithZeroBalance, GetUser
                 user.getBalance() + amount
         );
         return users.put(updatedUser.getUserId(), updatedUser);
+    }
+
+    @Override
+    public boolean doesUserExists(String userId) {
+        return true;
     }
 }

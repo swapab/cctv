@@ -1,6 +1,6 @@
 package com.swapab.cctv.user.usecase.addmoney;
 
-import com.swapab.cctv.user.domain.model.User;
+import com.swapab.cctv.user.domain.User;
 
 import java.util.Optional;
 

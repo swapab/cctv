@@ -1,7 +1,7 @@
-package com.swapab.cctv.user.usecase.addmoney;
+package com.swapab.cctv.user.usecase.addmoney
 
 import com.swapab.cctv.BaseUseCaseTest
-import com.swapab.cctv.user.domain.model.User
+import com.swapab.cctv.user.domain.User
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.mockito.BDDMockito.*

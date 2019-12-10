@@ -1,9 +1,11 @@
 package com.swapab.cctv.user.adapter.api;
 
-import com.swapab.cctv.user.domain.dto.UpdateUserRequestDTO;
-import com.swapab.cctv.user.domain.dto.UserResponseDTO;
-import com.swapab.cctv.user.domain.model.User;
+import com.swapab.cctv.user.adapter.api.dto.UpdateUserRequestDTO;
+import com.swapab.cctv.user.adapter.api.dto.UserResponseDTO;
+import com.swapab.cctv.user.adapter.api.exception.NotFoundException;
+import com.swapab.cctv.user.domain.User;
 import com.swapab.cctv.user.usecase.addmoney.AddMoneyToUserUseCase;
+import com.swapab.cctv.user.usecase.addmoney.UserNotFoundException;
 import com.swapab.cctv.user.usecase.register.RegisterNewUserUseCase;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,10 +33,14 @@ public class UserController {
     void updateUser(
             @RequestBody UpdateUserRequestDTO updateUserRequestDTO,
             @PathVariable String userId) {
-        addMoneyToUserUseCase.addMoney(
-                userId,
-                updateUserRequestDTO.getAmount()
-        );
+        try {
+            addMoneyToUserUseCase.addMoney(
+                    userId,
+                    updateUserRequestDTO.getAmount()
+            );
+        } catch (UserNotFoundException e) {
+            throw new NotFoundException();
+        }
     }
 
     private UserResponseDTO toDto(User user) {

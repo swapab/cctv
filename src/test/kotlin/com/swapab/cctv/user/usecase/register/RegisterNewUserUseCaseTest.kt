@@ -1,7 +1,7 @@
 package com.swapab.cctv.user.usecase.register
 
 import com.swapab.cctv.BaseUseCaseTest
-import com.swapab.cctv.user.domain.model.User
+import com.swapab.cctv.user.domain.User
 import org.junit.jupiter.api.Test
 import org.mockito.BDDMockito.given
 import org.mockito.Mock

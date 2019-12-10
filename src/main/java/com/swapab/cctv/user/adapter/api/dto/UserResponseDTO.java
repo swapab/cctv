@@ -1,11 +1,15 @@
-package com.swapab.cctv.user.domain.model;
+package com.swapab.cctv.user.adapter.api.dto;
 
-public class User {
+public class UserResponseDTO {
     private String userId;
     private Double balance;
 
     public String getUserId() {
         return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public Double getBalance() {
@@ -16,9 +20,7 @@ public class User {
         this.balance = balance;
     }
 
-    public User() {}
-
-    public User(String userId, Double balance) {
+    public UserResponseDTO(String  userId, Double balance) {
         this.userId = userId;
         this.balance = balance;
     }
