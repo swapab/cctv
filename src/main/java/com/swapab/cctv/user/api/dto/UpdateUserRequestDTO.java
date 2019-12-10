@@ -7,13 +7,9 @@ public class UpdateUserRequestDTO {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public UpdateUserRequestDTO(double amount) {
         this.amount = amount;
     }
 
     public UpdateUserRequestDTO() {}
-
-    public UpdateUserRequestDTO(double amount) {
-        this.amount = amount;
-    }
 }

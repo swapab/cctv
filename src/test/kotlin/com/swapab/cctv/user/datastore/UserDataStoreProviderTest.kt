@@ -33,8 +33,8 @@ class UserDataStoreProviderTest {
     @Test
     fun `updateUserBalance - should update the balance for the given user`() {
         val createdUser = userDataStoreProvider.createUserWithZeroBalance()
-        userDataStoreProvider.updateUserBalance(createdUser, 15.50)
-        assertEquals(15.50, userStore[createdUser.userId]?.balance)
+        userDataStoreProvider.updateUserBalance(createdUser.userId, 19.50)
+        assertEquals(19.50, userStore[createdUser.userId]?.balance)
     }
 
     @Test

@@ -2,8 +2,8 @@ package com.swapab.cctv.user.datastore;
 
 import com.swapab.cctv.creditcard.usecase.DoesUserExists;
 import com.swapab.cctv.user.domain.User;
-import com.swapab.cctv.user.usecase.addmoney.GetUserByUserId;
 import com.swapab.cctv.user.usecase.addmoney.UpdateUserWithBalance;
+import com.swapab.cctv.user.usecase.getuser.GetUserByUserId;
 import com.swapab.cctv.user.usecase.register.CreateUserWithZeroBalance;
 
 import java.util.HashMap;
@@ -40,12 +40,9 @@ public class UserDataStoreProvider implements
     }
 
     @Override
-    public User updateUserBalance(User user, double amount) {
-        User updatedUser = new User(
-                user.getUserId(),
-                user.getBalance() + amount
-        );
-        return userStore.put(updatedUser.getUserId(), updatedUser);
+    public User updateUserBalance(String userId, double amount) {
+        User updatedUser = new User(userId, amount);
+        return userStore.put(userId, updatedUser);
     }
 
     @Override

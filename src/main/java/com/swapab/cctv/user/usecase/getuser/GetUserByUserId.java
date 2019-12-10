@@ -1,4 +1,4 @@
-package com.swapab.cctv.user.usecase.addmoney;
+package com.swapab.cctv.user.usecase.getuser;
 
 import com.swapab.cctv.user.domain.User;
 

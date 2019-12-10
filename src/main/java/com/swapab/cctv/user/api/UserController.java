@@ -5,7 +5,7 @@ import com.swapab.cctv.user.api.dto.UserResponseDTO;
 import com.swapab.cctv.user.api.exception.NotFoundException;
 import com.swapab.cctv.user.domain.User;
 import com.swapab.cctv.user.usecase.addmoney.AddMoneyToUserUseCase;
-import com.swapab.cctv.user.usecase.addmoney.UserNotFoundException;
+import com.swapab.cctv.user.usecase.getuser.UserNotFoundException;
 import com.swapab.cctv.user.usecase.register.RegisterNewUserUseCase;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

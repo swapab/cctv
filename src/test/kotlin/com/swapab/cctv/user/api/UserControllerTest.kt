@@ -5,7 +5,7 @@ import com.swapab.cctv.toJsonString
 import com.swapab.cctv.user.api.dto.UpdateUserRequestDTO
 import com.swapab.cctv.user.domain.User
 import com.swapab.cctv.user.usecase.addmoney.AddMoneyToUserUseCase
-import com.swapab.cctv.user.usecase.addmoney.UserNotFoundException
+import com.swapab.cctv.user.usecase.getuser.UserNotFoundException
 import com.swapab.cctv.user.usecase.register.RegisterNewUserUseCase
 import org.junit.jupiter.api.Test
 import org.mockito.BDDMockito.given
@@ -44,10 +44,8 @@ class UserControllerTest : BaseControllerTest<UserController>() {
 
     @Test
     fun `PUT - updateUser - should update user balance`() {
-        val user = User(USER_ID, 0.0)
         val amount = 10.0
         val updateUserRequestDTO = UpdateUserRequestDTO(amount)
-        user.balance = amount
         given(addMoneyToUserUseCase.addMoney(USER_ID, amount)).will {}
 
         mockMvc.perform(
@@ -65,7 +63,6 @@ class UserControllerTest : BaseControllerTest<UserController>() {
         mockMvc.perform(
                 put("$userBaseUrl/$USER_ID")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
                         .content(updateUserRequestDTO.toJsonString()))
                 .andExpect(status().isNotFound)
     }
