@@ -6,10 +6,10 @@ import com.swapab.cctv.user.usecase.addmoney.UpdateUserWithBalance;
 import com.swapab.cctv.user.usecase.getuser.GetUserByUserId;
 import com.swapab.cctv.user.usecase.register.CreateUserWithZeroBalance;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class UserDataStoreProvider implements
         CreateUserWithZeroBalance,
@@ -20,7 +20,7 @@ public class UserDataStoreProvider implements
 
     private Map<String, User> userStore;
 
-    public UserDataStoreProvider(HashMap<String, User> userStore) {
+    public UserDataStoreProvider(ConcurrentHashMap<String, User> userStore) {
         this.userStore = userStore;
     }
 

@@ -1,7 +1,9 @@
 package com.swapab.cctv.transaction.api;
 
+import com.swapab.cctv.creditcard.api.exceptions.NotFoundError;
 import com.swapab.cctv.transaction.api.dto.TransactionRequestDTO;
 import com.swapab.cctv.transaction.api.exceptions.ForbiddenError;
+import com.swapab.cctv.transaction.usecase.CardNotFoundException;
 import com.swapab.cctv.transaction.usecase.InSufficientBalanceException;
 import com.swapab.cctv.transaction.usecase.IssueCardTransactionUseCase;
 import org.springframework.http.HttpStatus;
@@ -31,6 +33,8 @@ public class TransactionController {
             );
         } catch (InSufficientBalanceException e) {
             throw new ForbiddenError(e.getMessage());
+        } catch (CardNotFoundException e) {
+            throw new NotFoundError(e.getMessage());
         }
     }
 }

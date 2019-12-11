@@ -3,11 +3,11 @@
 ## Table of contents
 * [General Info](#general-info)
 * [Technologies](#technologies)
-* [Setup/Test](#setup/test)
+* [Setup/Test](#setup---test---run)
 * [Approach and Design choices](#approach-and-design-choices)
 * [Challenges](#challenges)
 
-## General Info :
+## General Info
 
 * `cctv` stands for **C**redit **C**ard **T**ransactions **V**anta
 
@@ -74,4 +74,20 @@ This could have been made possible with various collections(namely: Map, Set, Li
   - they are free of any side effects
   - and are thread safe
 
+* 2nd challenge Atomic and Concurrent Transactions.
+
+  * Choice of collection for User data-store.
+I initially kept it as `HashMap` but later replaced the `HashMap` with `ConcurrentHashMap` reason, 
+HashMap is non-synchronized and not thread-safe leading to `ConcurrentModificationException`.
+Whereas `ConcurrentHashMap` is synchronized on writes.
+
+  * `ConcurrentHashMap` could lead to stale balance reads because concurrent reads are non-blocking. 
+  
+  * The counter in `TransactionStoreProvider` was also a Critical Section since there can't be more than 100 transactions in the store.
+  How to make `Transaction` happy then?
+  `AtomicInteger` to the rescue. Java 8 `AtomicInteger` is implemented using [Fetch-and-add][1] as opposed to [Compare-and-swap][2]
+
 ## What could be improved?
+
+[1]: https://en.wikipedia.org/wiki/Fetch-and-add
+[2]: https://en.wikipedia.org/wiki/Compare-and-swap

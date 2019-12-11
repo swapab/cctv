@@ -5,7 +5,7 @@ import com.swapab.cctv.creditcard.api.dto.CreditCardRequestDTO
 import com.swapab.cctv.creditcard.domain.CreditCard
 import com.swapab.cctv.creditcard.usecase.CreditCardAlreadyExistsException
 import com.swapab.cctv.creditcard.usecase.InvalidCreditCardException
-import com.swapab.cctv.creditcard.usecase.IssueCreditCardToUserUserCase
+import com.swapab.cctv.creditcard.usecase.IssueCreditCardToUserUseCase
 import com.swapab.cctv.creditcard.usecase.UserDoesNotExistsException
 import com.swapab.cctv.toJsonString
 import org.junit.jupiter.api.Test
@@ -27,12 +27,12 @@ class CreditCardControllerTest : BaseControllerTest<CreditCardController>() {
     override lateinit var subject: CreditCardController
 
     @MockBean
-    private lateinit var issueCreditCardToUserUserCase: IssueCreditCardToUserUserCase
+    private lateinit var issueCreditCardToUserUseCase: IssueCreditCardToUserUseCase
 
     @Test
     fun `POST - createCreditCard - should issue a credit-card for the user`() {
         val creditCard = CreditCard(CREDIT_CARD_ID, USER_ID, CREDIT_CARD_NUMBER)
-        given(issueCreditCardToUserUserCase.assign(USER_ID, CREDIT_CARD_NUMBER)).willReturn(creditCard)
+        given(issueCreditCardToUserUseCase.assign(USER_ID, CREDIT_CARD_NUMBER)).willReturn(creditCard)
 
         mockMvc.perform(post(BASE_URL)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -43,7 +43,7 @@ class CreditCardControllerTest : BaseControllerTest<CreditCardController>() {
 
     @Test
     fun `POST - createCreditCard - should return 404 not-found if user does not exists`() {
-        given(issueCreditCardToUserUserCase.assign(USER_ID, CREDIT_CARD_NUMBER)).willThrow(UserDoesNotExistsException())
+        given(issueCreditCardToUserUseCase.assign(USER_ID, CREDIT_CARD_NUMBER)).willThrow(UserDoesNotExistsException())
 
         mockMvc.perform(post(BASE_URL)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -53,7 +53,7 @@ class CreditCardControllerTest : BaseControllerTest<CreditCardController>() {
 
     @Test
     fun `POST - createCreditCard - should return 400 bad-request if credit-card-invalid`() {
-        given(issueCreditCardToUserUserCase.assign(USER_ID, CREDIT_CARD_NUMBER)).willThrow(InvalidCreditCardException())
+        given(issueCreditCardToUserUseCase.assign(USER_ID, CREDIT_CARD_NUMBER)).willThrow(InvalidCreditCardException())
 
         mockMvc.perform(post(BASE_URL)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -63,7 +63,7 @@ class CreditCardControllerTest : BaseControllerTest<CreditCardController>() {
 
     @Test
     fun `POST - createCreditCard - should return 400 bad-request if credit-card already exists`() {
-        given(issueCreditCardToUserUserCase.assign(USER_ID, CREDIT_CARD_NUMBER)).willThrow(CreditCardAlreadyExistsException())
+        given(issueCreditCardToUserUseCase.assign(USER_ID, CREDIT_CARD_NUMBER)).willThrow(CreditCardAlreadyExistsException())
 
         mockMvc.perform(post(BASE_URL)
                 .contentType(MediaType.APPLICATION_JSON)

@@ -6,7 +6,7 @@ import com.swapab.cctv.creditcard.api.exceptions.NotFoundError;
 import com.swapab.cctv.creditcard.domain.CreditCard;
 import com.swapab.cctv.creditcard.usecase.CreditCardAlreadyExistsException;
 import com.swapab.cctv.creditcard.usecase.InvalidCreditCardException;
-import com.swapab.cctv.creditcard.usecase.IssueCreditCardToUserUserCase;
+import com.swapab.cctv.creditcard.usecase.IssueCreditCardToUserUseCase;
 import com.swapab.cctv.creditcard.usecase.UserDoesNotExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -15,17 +15,17 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/users/{userId}/creditCards")
 public class CreditCardController {
 
-    private final IssueCreditCardToUserUserCase issueCreditCardToUserUserCase;
+    private final IssueCreditCardToUserUseCase issueCreditCardToUserUseCase;
 
-    public CreditCardController(IssueCreditCardToUserUserCase issueCreditCardToUserUserCase) {
-        this.issueCreditCardToUserUserCase = issueCreditCardToUserUserCase;
+    public CreditCardController(IssueCreditCardToUserUseCase issueCreditCardToUserUseCase) {
+        this.issueCreditCardToUserUseCase = issueCreditCardToUserUseCase;
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CreditCard issueCreditCard(@RequestBody CreditCardRequestDTO creditCardRequestDTO, @PathVariable String userId) {
         try {
-            return issueCreditCardToUserUserCase.assign(userId, creditCardRequestDTO.getCreditCardNumber());
+            return issueCreditCardToUserUseCase.assign(userId, creditCardRequestDTO.getCreditCardNumber());
         } catch (UserDoesNotExistsException e) {
             throw new NotFoundError(e.getMessage());
         } catch (InvalidCreditCardException | CreditCardAlreadyExistsException e) {

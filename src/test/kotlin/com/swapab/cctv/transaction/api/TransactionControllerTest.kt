@@ -3,6 +3,7 @@ package com.swapab.cctv.transaction.api
 import com.swapab.cctv.BaseControllerTest
 import com.swapab.cctv.toJsonString
 import com.swapab.cctv.transaction.api.dto.TransactionRequestDTO
+import com.swapab.cctv.transaction.usecase.CardNotFoundException
 import com.swapab.cctv.transaction.usecase.InSufficientBalanceException
 import com.swapab.cctv.transaction.usecase.IssueCardTransactionUseCase
 import org.junit.jupiter.api.Test
@@ -45,5 +46,17 @@ class TransactionControllerTest : BaseControllerTest<TransactionController>() {
                 .content(TransactionRequestDTO(CREDIT_CARD_ID, 99.99).toJsonString())
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isForbidden)
+    }
+
+    @Test
+    fun `issueTransaction - should return 404 NotFound`() {
+        given(
+            issueCardTransactionUseCase.issueTransaction(USER_ID, CREDIT_CARD_ID, 99.99)
+        ).willThrow(CardNotFoundException())
+
+        mockMvc.perform(post(BASE_URL)
+                .content(TransactionRequestDTO(CREDIT_CARD_ID, 99.99).toJsonString())
+                .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isNotFound)
     }
 }

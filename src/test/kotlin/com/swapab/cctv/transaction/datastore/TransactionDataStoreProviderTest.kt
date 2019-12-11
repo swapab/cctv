@@ -19,7 +19,7 @@ class TransactionDataStoreProviderTest {
 
     @BeforeEach
     fun setUp() {
-        transactionStore = arrayOfNulls(1) // emptyArray() // arrayOf()
+        transactionStore = arrayOfNulls(1)
         transactionDataStoreProvider = TransactionDataStoreProvider(transactionStore, MAX_TRANSACTION_POOL_SIZE)
     }
 

@@ -4,15 +4,16 @@ import com.swapab.cctv.user.domain.User
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import java.util.concurrent.ConcurrentHashMap
 
 class UserDataStoreProviderTest {
 
-    private lateinit var userStore: HashMap<String, User>
+    private lateinit var userStore: ConcurrentHashMap<String, User>
     private lateinit var userDataStoreProvider: UserDataStoreProvider
 
     @BeforeEach
     fun setUp() {
-        userStore = hashMapOf()
+        userStore = ConcurrentHashMap()
         userDataStoreProvider = UserDataStoreProvider(userStore)
     }
 

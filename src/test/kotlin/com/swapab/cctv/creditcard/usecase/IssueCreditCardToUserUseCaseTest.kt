@@ -11,7 +11,7 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.verify
 
-class IssueCreditCardToUserUserCaseTest : BaseUseCaseTest {
+class IssueCreditCardToUserUseCaseTest : BaseUseCaseTest {
     companion object {
         private const val USER_ID = "valid-user"
         private const val VALID_CREDIT_CARD = "0000000123456789"
@@ -19,7 +19,7 @@ class IssueCreditCardToUserUserCaseTest : BaseUseCaseTest {
     }
 
     @InjectMocks
-    private lateinit var issueCreditCardToUserUserCase: IssueCreditCardToUserUserCase
+    private lateinit var issueCreditCardToUserUseCase: IssueCreditCardToUserUseCase
 
     @Mock
     private lateinit var doesUserExists: DoesUserExists
@@ -36,7 +36,7 @@ class IssueCreditCardToUserUserCaseTest : BaseUseCaseTest {
         given(validateCreditCardUseCase.isCreditCardNumberValid(VALID_CREDIT_CARD)).willReturn(true)
         given(saveCreditCard.saveCreditCardForUser(any(CreditCard::class.java))).willReturn(true)
 
-        issueCreditCardToUserUserCase.assign(USER_ID, VALID_CREDIT_CARD)
+        issueCreditCardToUserUseCase.assign(USER_ID, VALID_CREDIT_CARD)
 
         verify(doesUserExists).doesUserExists(USER_ID)
         verify(saveCreditCard).saveCreditCardForUser(any(CreditCard::class.java))
@@ -49,7 +49,7 @@ class IssueCreditCardToUserUserCaseTest : BaseUseCaseTest {
         given(saveCreditCard.saveCreditCardForUser(any(CreditCard::class.java))).willReturn(false)
 
         assertThrows<CreditCardAlreadyExistsException> {
-            issueCreditCardToUserUserCase.assign(USER_ID, VALID_CREDIT_CARD)
+            issueCreditCardToUserUseCase.assign(USER_ID, VALID_CREDIT_CARD)
         }
     }
 
@@ -58,7 +58,7 @@ class IssueCreditCardToUserUserCaseTest : BaseUseCaseTest {
         given(doesUserExists.doesUserExists(USER_ID)).willReturn(false)
 
         assertThrows<UserDoesNotExistsException> {
-            issueCreditCardToUserUserCase.assign(USER_ID, VALID_CREDIT_CARD)
+            issueCreditCardToUserUseCase.assign(USER_ID, VALID_CREDIT_CARD)
         }
 
         verify(doesUserExists).doesUserExists(USER_ID)
@@ -71,7 +71,7 @@ class IssueCreditCardToUserUserCaseTest : BaseUseCaseTest {
         given(validateCreditCardUseCase.isCreditCardNumberValid(INVALID_CREDIT_CARD)).willReturn(false)
 
         assertThrows<InvalidCreditCardException> {
-            issueCreditCardToUserUserCase.assign(USER_ID, INVALID_CREDIT_CARD)
+            issueCreditCardToUserUseCase.assign(USER_ID, INVALID_CREDIT_CARD)
         }
 
         verifyNoInteractions(saveCreditCard)

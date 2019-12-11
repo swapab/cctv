@@ -2,13 +2,11 @@ package com.swapab.cctv.creditcard.datastore;
 
 import com.swapab.cctv.creditcard.domain.CreditCard;
 import com.swapab.cctv.creditcard.usecase.SaveCreditCard;
+import com.swapab.cctv.transaction.usecase.TransactionDomainGetCreditCardForUser;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-public class CreditCardDataStoreProvider implements SaveCreditCard {
+public class CreditCardDataStoreProvider implements SaveCreditCard, TransactionDomainGetCreditCardForUser {
 
     private Map<String, Set<CreditCard>> userCreditCards;
 
@@ -28,4 +26,15 @@ public class CreditCardDataStoreProvider implements SaveCreditCard {
         return true;
     }
 
+    @Override
+    public Optional<CreditCard> getCreditCardByUserIdAndCreditCardId(String userId, String cardId) {
+        if(this.userCreditCards.containsKey(userId)){
+            return this.userCreditCards.get(userId)
+                    .stream()
+                    .filter(
+                            creditCard -> creditCard.getCreditCardId().equals(cardId)
+                    ).findFirst();
+        }
+        return Optional.empty();
+    }
 }

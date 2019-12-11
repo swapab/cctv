@@ -6,12 +6,12 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
-public class IssueCreditCardToUserUserCase {
+public class IssueCreditCardToUserUseCase {
     private final DoesUserExists doesUserExists;
     private final ValidateCreditCardUseCase validateCreditCardUseCase;
     private final SaveCreditCard saveCreditCard;
 
-    public IssueCreditCardToUserUserCase(DoesUserExists doesUserExists, ValidateCreditCardUseCase validateCreditCardUseCase, SaveCreditCard saveCreditCard) {
+    public IssueCreditCardToUserUseCase(DoesUserExists doesUserExists, ValidateCreditCardUseCase validateCreditCardUseCase, SaveCreditCard saveCreditCard) {
         this.doesUserExists = doesUserExists;
         this.validateCreditCardUseCase = validateCreditCardUseCase;
         this.saveCreditCard = saveCreditCard;
