@@ -89,5 +89,8 @@ Whereas `ConcurrentHashMap` is synchronized on writes.
 
 ## What could be improved?
 
+## ToDo
+1. Change GET Transactions API to per user instead of all transactions
+ 
 [1]: https://en.wikipedia.org/wiki/Fetch-and-add
 [2]: https://en.wikipedia.org/wiki/Compare-and-swap

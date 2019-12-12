@@ -7,6 +7,18 @@ public class Transaction {
     private final String creditCardId;
     private final double amount;
 
+    public String getTransactionId() {
+        return transactionId;
+    }
+
+    public String getCreditCardId() {
+        return creditCardId;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
     public Transaction(String transactionId, String creditCardId, double amount) {
         this.transactionId = transactionId;
         this.creditCardId = creditCardId;

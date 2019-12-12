@@ -2,10 +2,13 @@ package com.swapab.cctv.transaction.datastore;
 
 import com.swapab.cctv.transaction.domain.Transaction;
 import com.swapab.cctv.transaction.usecase.CreateNewTransactionForCard;
+import com.swapab.cctv.transaction.usecase.GetAllTransactions;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class TransactionDataStoreProvider implements CreateNewTransactionForCard {
+public class TransactionDataStoreProvider implements
+        CreateNewTransactionForCard,
+        GetAllTransactions {
     private Transaction[] transactionStore;
     private int transactionPoolSize;
     private AtomicInteger counter = new AtomicInteger();
@@ -22,5 +25,10 @@ public class TransactionDataStoreProvider implements CreateNewTransactionForCard
         if(counter.incrementAndGet() == transactionPoolSize) {
             counter.set(0);
         }
+    }
+
+    @Override
+    public Transaction[] getAll() {
+        return this.transactionStore;
     }
 }

@@ -3,16 +3,17 @@ package com.swapab.cctv.user.api
 import com.swapab.cctv.BaseControllerTest
 import com.swapab.cctv.toJsonString
 import com.swapab.cctv.user.api.dto.UpdateUserRequestDTO
+import com.swapab.cctv.user.api.dto.UserBalanceResponseDTO
 import com.swapab.cctv.user.domain.User
 import com.swapab.cctv.user.usecase.addmoney.AddMoneyToUserUseCase
+import com.swapab.cctv.user.usecase.getuser.GetUserUseCase
 import com.swapab.cctv.user.usecase.getuser.UserNotFoundException
 import com.swapab.cctv.user.usecase.register.RegisterNewUserUseCase
 import org.junit.jupiter.api.Test
 import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
@@ -30,6 +31,9 @@ class UserControllerTest : BaseControllerTest<UserController>() {
 
     @MockBean
     private lateinit var addMoneyToUserUseCase: AddMoneyToUserUseCase
+
+    @MockBean
+    private lateinit var getUserUseCase: GetUserUseCase
 
     @Test
     fun `POST - createUser - should create a user with zero balance`() {
@@ -65,5 +69,27 @@ class UserControllerTest : BaseControllerTest<UserController>() {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(updateUserRequestDTO.toJsonString()))
                 .andExpect(status().isNotFound)
+    }
+
+    @Test
+    fun `GET - getUserBalance - should return 404 NotFound is user does not exists`() {
+        given(getUserUseCase.getUser(USER_ID)).willThrow(UserNotFoundException())
+
+        mockMvc.perform(
+                get("$userBaseUrl/$USER_ID/balance"))
+                .andExpect(status().isNotFound)
+    }
+
+    @Test
+    fun `GET - getUserBalance - should return 200 OK with user balance`() {
+        val balance = 10.0
+        val userBalanceResponseDTO = UserBalanceResponseDTO(balance)
+        given(getUserUseCase.getUser(USER_ID)).willReturn(User(USER_ID, balance))
+
+        mockMvc.perform(
+                get("$userBaseUrl/$USER_ID/balance")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk)
+                .andExpect(content().json(userBalanceResponseDTO.toJsonString()))
     }
 }
