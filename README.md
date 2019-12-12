@@ -91,6 +91,7 @@ Whereas `ConcurrentHashMap` is synchronized on writes.
 
 ## ToDo
 1. Change GET Transactions API to per user instead of all transactions
- 
+2. Deploy to GCP
+
 [1]: https://en.wikipedia.org/wiki/Fetch-and-add
 [2]: https://en.wikipedia.org/wiki/Compare-and-swap
